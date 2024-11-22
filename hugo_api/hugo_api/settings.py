@@ -35,7 +35,9 @@ DEBUG = False
 
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']                         # DEPLOYMENT 
-ALLOWED_HOSTS = ['tu-app.onrender.com', 'localhost']
+ALLOWED_HOSTS = [
+    os.getenv("RENDER_EXTERNAL_HOSTNAME", "localhost")
+]
 
 
 
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',                           #DEPLOYED
 ]
 
 ROOT_URLCONF = 'hugo_api.urls'
@@ -100,17 +103,15 @@ WSGI_APPLICATION = 'hugo_api.wsgi.application'
 #     }
 # }
 
-
-# DEPLOYMENT
 DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///db.sqlite3')   
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
 
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False)
+    DEBUG=(bool, False) == 'True'
 )
 # reading .env file
 environ.Env.read_env()
