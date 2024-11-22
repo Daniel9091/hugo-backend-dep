@@ -1,1 +1,1 @@
-web: gunicorn hugo_api.hugo_api.wsgi
+web: gunicorn hugo_api.wsgi
