@@ -1,2 +1,0 @@
-web: gunicorn hugo_api.wsgi
-
